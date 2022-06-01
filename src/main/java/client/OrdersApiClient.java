@@ -21,4 +21,11 @@ public class OrdersApiClient extends BaseHttpClient {
                 .body(orderParameters.toJson())
                 .post("orders");
     }
+
+    public Response getOrders(AuthInfo authInfo) {
+        return given()
+                .header("Content-type", HEADER_CONTENT_TYPE)
+                .auth().oauth2(authInfo.getAccessToken())
+                .get("orders");
+    }
 }

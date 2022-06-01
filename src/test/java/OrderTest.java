@@ -42,10 +42,9 @@ public class OrderTest {
     }
 
     private AuthInfo getRandomUserAuthInfo() {
-        return
-                usersApiClient
-                        .register(User.getRandomUser())
-                        .as(AuthInfo.class);
+        return usersApiClient
+                .register(User.getRandomUser())
+                .as(AuthInfo.class);
     }
 
     @Test
@@ -108,5 +107,27 @@ public class OrderTest {
         ordersApiClient
                 .makeOrder(new OrderParameters(orderIngredients), authInfo)
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    @DisplayName("Должна быть возможность получения списка заказов пользователей с авторизацией.")
+    public void shouldGetOrdersByUserWithAuthTest() {
+        List<Ingredient> ingredients = getIngredients();
+
+        if (ingredients.size() == 0) {
+            Assert.fail("Отсутствуют ингредиенты для возможности создать заказ.");
+        }
+
+        ArrayList<String> orderIngredients = new ArrayList<>();
+        orderIngredients.add(ingredients.get(0).getId());
+
+        AuthInfo authInfo = getRandomUserAuthInfo();
+
+        ordersApiClient.makeOrder(new OrderParameters(orderIngredients), authInfo);
+
+        ordersApiClient
+                .getOrders(authInfo)
+                .then().assertThat().statusCode(HttpStatus.SC_OK)
+                .and().assertThat().body("success", equalTo(true));
     }
 }
