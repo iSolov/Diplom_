@@ -2,6 +2,7 @@ import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
+import models.AuthInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
@@ -68,5 +69,22 @@ public class UserRegisterTest {
                 .register(user)
                 .then().assertThat().statusCode(HttpStatus.SC_FORBIDDEN)
                 .and().assertThat().body("success", equalTo(false));
+    }
+
+
+    @Test
+    @DisplayName("Должна быть возможность получить информацию о пользователе.")
+    public void shouldGetUserTest() {
+        User user = User.getRandomUser();
+
+        AuthInfo authInfo =
+            usersApiClient
+                .register(user)
+                .as(AuthInfo.class);
+
+        usersApiClient
+            .getUser(authInfo)
+            .then().assertThat().statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("success", equalTo(true));
     }
 }

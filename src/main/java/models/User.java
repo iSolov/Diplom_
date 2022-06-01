@@ -55,7 +55,7 @@ public class User {
     }
 
     public static String getRandomEmail(){
-        return getRandomString(MAX_EMAIL_LENGTH);
+        return getRandomString(MAX_EMAIL_LENGTH/2) + "@" + getRandomString(MAX_EMAIL_LENGTH/2) + "." + getRandomString(2);
     }
 
     private static String getRandomString(int count) {

@@ -14,4 +14,8 @@ public class AuthInfo {
     }
 
     public String refreshToken;
+
+    public String getAccessToken(){
+        return accessToken.replace("Bearer ", "");
+    }
 }

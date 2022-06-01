@@ -24,15 +24,23 @@ public class UsersApiClient extends BaseHttpClient {
     public Response getUser(AuthInfo authInfo) {
         return given()
                 .header("Content-type", HEADER_CONTENT_TYPE)
-                .auth().oauth2(authInfo.accessToken)
+                .auth().oauth2(authInfo.getAccessToken())
                 .get("auth/user");
     }
 
-    public Response patchUserInfo(AuthInfo authInfo) {
+    public Response patchAuthUserInfo(AuthInfo authInfo) {
         return given()
                 .header("Content-type", HEADER_CONTENT_TYPE)
-                .auth().oauth2(authInfo.accessToken)
+                .auth().oauth2(authInfo.getAccessToken())
+                .body(authInfo.getUser().toJson())
                 .patch("auth/user");
+    }
+
+    public Response patchNotAuthUserInfo(User user) {
+        return given()
+            .header("Content-type", HEADER_CONTENT_TYPE)
+            .body(user.toJson())
+            .patch("auth/user");
     }
 
     public void delete(AuthInfo authInfo) {
