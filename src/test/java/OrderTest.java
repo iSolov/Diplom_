@@ -10,6 +10,7 @@ import java.util.List;
 import models.Ingredient;
 import models.OrderParameters;
 import org.apache.http.HttpStatus;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,17 +31,20 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность авторизоваться под существующим пользователем.")
+    @DisplayName("Должна быть возможность создать заказ.")
     public void shouldLoginTest() {
         List<Ingredient> ingredients = getIngredients();
 
+        if (ingredients.size() == 0){
+            Assert.fail("Отсутствуют ингредиенты для возможности создать заказ.");
+        }
+
         ArrayList<String> orderIngredients = new ArrayList<>();
         orderIngredients.add(ingredients.get(0).getId());
-        orderIngredients.add(ingredients.get(1).getId());
-        orderIngredients.add(ingredients.get(2).getId());
 
         ordersApiClient
-            .makeOrder(new OrderParameters(orderIngredients)).then().assertThat()
-            .statusCode(HttpStatus.SC_OK).and().assertThat().body("success", equalTo(true));
+            .makeOrder(new OrderParameters(orderIngredients))
+                .then().assertThat().statusCode(HttpStatus.SC_OK)
+                .and().assertThat().body("success", equalTo(true));
     }
 }

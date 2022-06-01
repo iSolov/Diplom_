@@ -65,6 +65,26 @@ public class UserInfoChangingTest {
     }
 
     @Test
+    @DisplayName("Должна быть возможность изменить пароль пользователя с авторизацией.")
+    public void shouldPatchAuthUsersPasswordTest() {
+        User user = User.getRandomUser();
+
+        AuthInfo authInfo =
+            usersApiClient
+                .register(user)
+                .as(AuthInfo.class);
+
+        user.setPassword(User.getRandomPassword());
+
+        authInfo.setUser(user);
+
+        usersApiClient
+            .patchAuthUserInfo(authInfo)
+            .then().assertThat().statusCode(HttpStatus.SC_OK)
+            .and().assertThat().body("success", equalTo(true));
+    }
+
+    @Test
     @DisplayName("Не должно быть возможности изменить Email пользователя без авторизации.")
     public void shouldNotPatchUsersEmailWithoutAuthTest() {
         User user = User.getRandomUser();
@@ -91,6 +111,23 @@ public class UserInfoChangingTest {
             .as(AuthInfo.class);
 
         user.setName(User.getRandomName());
+
+        usersApiClient
+            .patchNotAuthUserInfo(user)
+            .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED)
+            .and().assertThat().body("success", equalTo(false));
+    }
+
+    @Test
+    @DisplayName("Не должно быть возможности изменить пароль пользователя без авторизации.")
+    public void shouldNotPatchUsersPasswordWithoutAuthTest() {
+        User user = User.getRandomUser();
+
+        usersApiClient
+            .register(user)
+            .as(AuthInfo.class);
+
+        user.setPassword(User.getRandomPassword());
 
         usersApiClient
             .patchNotAuthUserInfo(user)
