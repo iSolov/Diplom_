@@ -6,6 +6,9 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Тестирование ингредиентов.
+ */
 public class IngredientsTest {
     private final IngredientsApiClient ingredientsApiClient = new IngredientsApiClient();
 

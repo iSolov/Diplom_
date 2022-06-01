@@ -1,9 +1,13 @@
 package models;
 
-public class AuthInfo {
+/**
+ * Информация об авторизации.
+ */
+public class AuthorizationInfo {
     public Boolean success;
     public User user;
     public String accessToken;
+    public String refreshToken;
 
     public User getUser() {
         return user;
@@ -12,8 +16,6 @@ public class AuthInfo {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public String refreshToken;
 
     public String getAccessToken(){
         return accessToken.replace("Bearer ", "");

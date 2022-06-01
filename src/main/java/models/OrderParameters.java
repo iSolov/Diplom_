@@ -3,6 +3,9 @@ package models;
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
+/**
+ * Параметры создания заказа.
+ */
 @SuppressWarnings("FieldCanBeLocal")
 public class OrderParameters {
     private final ArrayList<String> ingredients;

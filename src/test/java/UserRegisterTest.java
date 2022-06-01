@@ -2,7 +2,7 @@ import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import models.AuthInfo;
+import models.AuthorizationInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
+/**
+ * Тестирование регистрации пользователей.
+ */
 public class UserRegisterTest {
     private final UsersApiClient usersApiClient = new UsersApiClient();
 
@@ -77,13 +80,13 @@ public class UserRegisterTest {
     public void shouldGetUserTest() {
         User user = User.getRandomUser();
 
-        AuthInfo authInfo =
+        AuthorizationInfo authorizationInfo =
             usersApiClient
                 .register(user)
-                .as(AuthInfo.class);
+                .as(AuthorizationInfo.class);
 
         usersApiClient
-            .getUser(authInfo)
+            .getUser(authorizationInfo)
             .then().assertThat().statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("success", equalTo(true));
     }

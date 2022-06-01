@@ -3,9 +3,23 @@ package models;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.RandomStringUtils;
 
+/**
+ * Информация о пользователях.
+ */
 public class User {
+    /**
+     * Максимальная длина Email при генерации.
+     */
     private static final int MAX_EMAIL_LENGTH = 20;
+
+    /**
+     * Максимальная длина пароля при генерации.
+     */
     private static final int MAX_PASSWORD_LENGTH = 25;
+
+    /**
+     * Максимальная длина имени при генерации.
+     */
     private static final int MAX_NAME_LENGTH = 30;
 
     public String email;

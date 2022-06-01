@@ -9,7 +9,7 @@ import io.restassured.RestAssured;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.AuthInfo;
+import models.AuthorizationInfo;
 import models.Ingredient;
 import models.OrderParameters;
 import models.User;
@@ -19,6 +19,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Тестирование заказов.
+ */
 public class OrderTest {
 
     private final OrdersApiClient ordersApiClient = new OrdersApiClient();
@@ -41,10 +44,10 @@ public class OrderTest {
             .getList("data", Ingredient.class);
     }
 
-    private AuthInfo getRandomUserAuthInfo() {
+    private AuthorizationInfo getRandomUserAuthInfo() {
         return usersApiClient
                 .register(User.getRandomUser())
-                .as(AuthInfo.class);
+                .as(AuthorizationInfo.class);
     }
 
     @Test
@@ -59,10 +62,10 @@ public class OrderTest {
         ArrayList<String> orderIngredients = new ArrayList<>();
         orderIngredients.add(ingredients.get(0).getId());
 
-        AuthInfo authInfo = getRandomUserAuthInfo();
+        AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
         ordersApiClient
-                .makeOrder(new OrderParameters(orderIngredients), authInfo)
+                .makeOrder(new OrderParameters(orderIngredients), authorizationInfo)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .and().assertThat().body("success", equalTo(true));
     }
@@ -88,10 +91,10 @@ public class OrderTest {
     @Test
     @DisplayName("Должна быть ошибка при заказе без ингредиентов.")
     public void shouldGetErrorWhenMakeOrderWithoutIngredientsTest() {
-        AuthInfo authInfo = getRandomUserAuthInfo();
+        AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
         ordersApiClient
-                .makeOrder(new OrderParameters(new ArrayList<>()), authInfo)
+                .makeOrder(new OrderParameters(new ArrayList<>()), authorizationInfo)
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
                 .and().assertThat().body("success", equalTo(false));
     }
@@ -99,13 +102,13 @@ public class OrderTest {
     @Test
     @DisplayName("Должна быть ошибка при заказе без ингредиентов.")
     public void shouldGetErrorWhenMakeOrderWithWrongIngredientTest() {
-        AuthInfo authInfo = getRandomUserAuthInfo();
+        AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
         ArrayList<String> orderIngredients = new ArrayList<>();
         orderIngredients.add("61c0c5a71d1f82001_______");
 
         ordersApiClient
-                .makeOrder(new OrderParameters(orderIngredients), authInfo)
+                .makeOrder(new OrderParameters(orderIngredients), authorizationInfo)
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 
@@ -121,12 +124,12 @@ public class OrderTest {
         ArrayList<String> orderIngredients = new ArrayList<>();
         orderIngredients.add(ingredients.get(0).getId());
 
-        AuthInfo authInfo = getRandomUserAuthInfo();
+        AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
-        ordersApiClient.makeOrder(new OrderParameters(orderIngredients), authInfo);
+        ordersApiClient.makeOrder(new OrderParameters(orderIngredients), authorizationInfo);
 
         ordersApiClient
-                .getOrders(authInfo)
+                .getOrders(authorizationInfo)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .and().assertThat().body("success", equalTo(true));
     }

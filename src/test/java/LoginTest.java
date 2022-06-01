@@ -2,7 +2,6 @@ import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import models.AuthInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
@@ -12,6 +11,9 @@ import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 
+/**
+ * Тестирование авторизации.
+ */
 public class LoginTest {
     private final UsersApiClient usersApiClient = new UsersApiClient();
 

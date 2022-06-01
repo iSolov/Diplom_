@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * Информация об ингредиенте.
+ */
 public class Ingredient {
     private String _id;
     private String name;

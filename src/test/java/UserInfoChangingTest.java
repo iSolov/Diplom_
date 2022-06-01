@@ -4,13 +4,16 @@ import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import models.AuthInfo;
+import models.AuthorizationInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Тестирование изменения информации о пользователе.
+ */
 public class UserInfoChangingTest {
     private final UsersApiClient usersApiClient = new UsersApiClient();
 
@@ -29,17 +32,17 @@ public class UserInfoChangingTest {
     public void shouldPatchAuthUsersEmailTest() {
         User user = User.getRandomUser();
 
-        AuthInfo authInfo =
+        AuthorizationInfo authorizationInfo =
             usersApiClient
                 .register(user)
-                .as(AuthInfo.class);
+                .as(AuthorizationInfo.class);
 
         user.setEmail(User.getRandomEmail());
 
-        authInfo.setUser(user);
+        authorizationInfo.setUser(user);
 
         usersApiClient
-            .patchAuthUserInfo(authInfo)
+            .patchAuthUserInfo(authorizationInfo)
             .then().assertThat().statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("success", equalTo(true));
     }
@@ -49,17 +52,17 @@ public class UserInfoChangingTest {
     public void shouldPatchAuthUsersNameTest() {
         User user = User.getRandomUser();
 
-        AuthInfo authInfo =
+        AuthorizationInfo authorizationInfo =
             usersApiClient
                 .register(user)
-                .as(AuthInfo.class);
+                .as(AuthorizationInfo.class);
 
         user.setName(User.getRandomName());
 
-        authInfo.setUser(user);
+        authorizationInfo.setUser(user);
 
         usersApiClient
-            .patchAuthUserInfo(authInfo)
+            .patchAuthUserInfo(authorizationInfo)
             .then().assertThat().statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("success", equalTo(true));
     }
@@ -69,17 +72,17 @@ public class UserInfoChangingTest {
     public void shouldPatchAuthUsersPasswordTest() {
         User user = User.getRandomUser();
 
-        AuthInfo authInfo =
+        AuthorizationInfo authorizationInfo =
             usersApiClient
                 .register(user)
-                .as(AuthInfo.class);
+                .as(AuthorizationInfo.class);
 
         user.setPassword(User.getRandomPassword());
 
-        authInfo.setUser(user);
+        authorizationInfo.setUser(user);
 
         usersApiClient
-            .patchAuthUserInfo(authInfo)
+            .patchAuthUserInfo(authorizationInfo)
             .then().assertThat().statusCode(HttpStatus.SC_OK)
             .and().assertThat().body("success", equalTo(true));
     }
@@ -91,7 +94,7 @@ public class UserInfoChangingTest {
 
         usersApiClient
             .register(user)
-            .as(AuthInfo.class);
+            .as(AuthorizationInfo.class);
 
         user.setEmail(User.getRandomEmail());
 
@@ -108,7 +111,7 @@ public class UserInfoChangingTest {
 
         usersApiClient
             .register(user)
-            .as(AuthInfo.class);
+            .as(AuthorizationInfo.class);
 
         user.setName(User.getRandomName());
 
@@ -125,7 +128,7 @@ public class UserInfoChangingTest {
 
         usersApiClient
             .register(user)
-            .as(AuthInfo.class);
+            .as(AuthorizationInfo.class);
 
         user.setPassword(User.getRandomPassword());
 
