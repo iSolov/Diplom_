@@ -25,8 +25,9 @@ public class UsersApiClient extends BaseHttpClient {
         createdUsers.add(user);
 
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .body(user.toJson())
+                .when()
                 .post("auth/register");
     }
 
@@ -35,8 +36,9 @@ public class UsersApiClient extends BaseHttpClient {
      */
     public Response getUser(AuthorizationInfo authorizationInfo) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .auth().oauth2(authorizationInfo.getAccessToken())
+                .when()
                 .get("auth/user");
     }
 
@@ -45,9 +47,10 @@ public class UsersApiClient extends BaseHttpClient {
      */
     public Response patchAuthUserInfo(AuthorizationInfo authorizationInfo) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .auth().oauth2(authorizationInfo.getAccessToken())
                 .body(authorizationInfo.getUser().toJson())
+                .when()
                 .patch("auth/user");
     }
 
@@ -56,9 +59,10 @@ public class UsersApiClient extends BaseHttpClient {
      */
     public Response patchNotAuthUserInfo(User user) {
         return given()
-            .header("Content-type", HEADER_CONTENT_TYPE)
-            .body(user.toJson())
-            .patch("auth/user");
+                .spec(getRequestSpecification())
+                .body(user.toJson())
+                .when()
+                .patch("auth/user");
     }
 
     /**
@@ -66,8 +70,9 @@ public class UsersApiClient extends BaseHttpClient {
      */
     public Response login(User user) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .body(user.toJson())
+                .when()
                 .post("auth/login");
     }
 
@@ -80,8 +85,9 @@ public class UsersApiClient extends BaseHttpClient {
             AuthorizationInfo authorizationInfo = response.as(AuthorizationInfo.class);
 
             given()
-                    .header("Content-type", HEADER_CONTENT_TYPE)
+                    .spec(getRequestSpecification())
                     .auth().oauth2(authorizationInfo.getAccessToken())
+                    .when()
                     .delete("auth/user");
         }
     }

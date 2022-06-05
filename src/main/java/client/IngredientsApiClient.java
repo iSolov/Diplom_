@@ -13,7 +13,8 @@ public class IngredientsApiClient extends BaseHttpClient {
      */
     public Response getIngredients() {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
+                .when()
                 .get("ingredients");
     }
 }

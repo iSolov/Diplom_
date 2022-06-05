@@ -17,9 +17,10 @@ public class OrdersApiClient extends BaseHttpClient {
      */
     public Response makeOrder(OrderParameters orderParameters, AuthorizationInfo authorizationInfo) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .auth().oauth2(authorizationInfo.getAccessToken())
                 .body(orderParameters.toJson())
+                .when()
                 .post("orders");
     }
 
@@ -29,8 +30,9 @@ public class OrdersApiClient extends BaseHttpClient {
      */
     public Response makeOrderWithoutAuth(OrderParameters orderParameters) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .body(orderParameters.toJson())
+                .when()
                 .post("orders");
     }
 
@@ -40,8 +42,9 @@ public class OrdersApiClient extends BaseHttpClient {
      */
     public Response getOrders(AuthorizationInfo authorizationInfo) {
         return given()
-                .header("Content-type", HEADER_CONTENT_TYPE)
+                .spec(getRequestSpecification())
                 .auth().oauth2(authorizationInfo.getAccessToken())
+                .when()
                 .get("orders");
     }
 }

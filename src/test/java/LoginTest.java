@@ -17,11 +17,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class LoginTest {
     private final UsersApiClient usersApiClient = new UsersApiClient();
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = BaseHttpClient.API_HOST;
-    }
-
     @After
     public void afterTest() {
         usersApiClient.deleteCreatedUsers();

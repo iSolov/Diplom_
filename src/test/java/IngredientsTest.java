@@ -12,16 +12,11 @@ import org.junit.Test;
 public class IngredientsTest {
     private final IngredientsApiClient ingredientsApiClient = new IngredientsApiClient();
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = BaseHttpClient.API_HOST;
-    }
-
     @Test
     @DisplayName("Должна быть возможность получить список ингредиентов.")
     public void shouldGetIngredientsTest(){
         ingredientsApiClient
-            .getIngredients()
+                .getIngredients()
                 .then().assertThat().statusCode(HttpStatus.SC_OK);
     }
 }

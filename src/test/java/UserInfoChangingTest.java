@@ -17,11 +17,6 @@ import org.junit.Test;
 public class UserInfoChangingTest {
     private final UsersApiClient usersApiClient = new UsersApiClient();
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = BaseHttpClient.API_HOST;
-    }
-
     @After
     public void afterTest() {
         usersApiClient.deleteCreatedUsers();
