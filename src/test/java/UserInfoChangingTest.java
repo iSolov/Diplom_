@@ -1,15 +1,12 @@
-import static org.hamcrest.core.IsEqual.equalTo;
-
-import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import models.AuthorizationInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Тестирование изменения информации о пользователе.
@@ -23,7 +20,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность изменить Email пользователя с авторизацией.")
+    @DisplayName("It should be possible to change the user's Email with authorization.")
     public void shouldPatchAuthUsersEmailTest() {
         User user = User.getRandomUser();
 
@@ -43,7 +40,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность изменить имя пользователя с авторизацией.")
+    @DisplayName("It should be possible to change the username with authorization.")
     public void shouldPatchAuthUsersNameTest() {
         User user = User.getRandomUser();
 
@@ -63,7 +60,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность изменить пароль пользователя с авторизацией.")
+    @DisplayName("It should be possible to change the user's password with authorization.")
     public void shouldPatchAuthUsersPasswordTest() {
         User user = User.getRandomUser();
 
@@ -83,7 +80,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Не должно быть возможности изменить Email пользователя без авторизации.")
+    @DisplayName("It should not be possible to change the user's Email without authorization.")
     public void shouldNotPatchUsersEmailWithoutAuthTest() {
         User user = User.getRandomUser();
 
@@ -100,7 +97,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Не должно быть возможности изменить имя пользователя без авторизации.")
+    @DisplayName("It should not be possible to change the username without authorization.")
     public void shouldNotPatchUsersNameWithoutAuthTest() {
         User user = User.getRandomUser();
 
@@ -117,7 +114,7 @@ public class UserInfoChangingTest {
     }
 
     @Test
-    @DisplayName("Не должно быть возможности изменить пароль пользователя без авторизации.")
+    @DisplayName("It should not be possible to change a user's password without authorization.")
     public void shouldNotPatchUsersPasswordWithoutAuthTest() {
         User user = User.getRandomUser();
 

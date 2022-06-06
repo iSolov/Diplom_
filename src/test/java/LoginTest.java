@@ -1,12 +1,9 @@
-import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -22,9 +19,8 @@ public class LoginTest {
         usersApiClient.deleteCreatedUsers();
     }
 
-
     @Test
-    @DisplayName("Должна быть возможность авторизоваться под существующим пользователем.")
+    @DisplayName("It should be possible to log in as an existing user.")
     public void shouldLoginTest() {
         User user = User.getRandomUser();
 
@@ -35,7 +31,7 @@ public class LoginTest {
                         .and().extract().body().path("success");
 
         if (!isUserRegistered) {
-            Assert.fail("Не удалось создать пользователя для проверки.");
+            Assert.fail("Failed to create user for verification.");
             return;
         }
 
@@ -45,9 +41,8 @@ public class LoginTest {
                 .and().assertThat().body("success", equalTo(true));
     }
 
-
     @Test
-    @DisplayName("Не должно быть возможности авторизоваться с неверным логином и паролем.")
+    @DisplayName("It should not be possible to log in with an incorrect username and password.")
     public void shouldNotLoginWithWrongPasswordTest() {
         User user = User.getRandomUser();
 
@@ -58,7 +53,7 @@ public class LoginTest {
                         .and().extract().body().path("success");
 
         if (!isUserRegistered) {
-            Assert.fail("Не удалось создать пользователя для проверки.");
+            Assert.fail("Failed to create user for verification.");
             return;
         }
 

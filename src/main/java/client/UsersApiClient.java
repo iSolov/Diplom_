@@ -1,5 +1,6 @@
 package client;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import models.AuthorizationInfo;
 import models.User;
@@ -21,6 +22,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Создание нового пользователя.
      */
+    @Step("New User Registration.")
     public Response register(User user) {
         createdUsers.add(user);
 
@@ -34,6 +36,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Получение информации о пользователе..
      */
+    @Step("Get user.")
     public Response getUser(AuthorizationInfo authorizationInfo) {
         return given()
                 .spec(getRequestSpecification())
@@ -45,6 +48,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Внесение изменений в информацию о пользователе с использование авторизации.
      */
+    @Step("Update user information.")
     public Response patchAuthUserInfo(AuthorizationInfo authorizationInfo) {
         return given()
                 .spec(getRequestSpecification())
@@ -57,6 +61,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Внесение изменений в информацию о пользователе без авторизации.
      */
+    @Step("Updating user information without authorization.")
     public Response patchNotAuthUserInfo(User user) {
         return given()
                 .spec(getRequestSpecification())
@@ -68,6 +73,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Авторизация пользователя.
      */
+    @Step("User authorization.")
     public Response login(User user) {
         return given()
                 .spec(getRequestSpecification())
@@ -79,6 +85,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Удаление пользователя.
      */
+    @Step("Deleting a user.")
     public void deleteUser(User user) {
         Response response = login(user);
         if (response.statusCode() == HttpStatus.SC_OK) {
@@ -95,6 +102,7 @@ public class UsersApiClient extends BaseHttpClient {
     /**
      * Удаляет всех созданных пользователей.
      */
+    @Step("Delete all created users.")
     public void deleteCreatedUsers() {
         createdUsers.forEach(this::deleteUser);
     }

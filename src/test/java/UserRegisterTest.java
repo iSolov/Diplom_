@@ -1,13 +1,10 @@
-import client.BaseHttpClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import models.AuthorizationInfo;
 import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -23,9 +20,8 @@ public class UserRegisterTest {
         usersApiClient.deleteCreatedUsers();
     }
 
-
     @Test
-    @DisplayName("Должна быть возможность создать уникального пользователя.")
+    @DisplayName("It should be possible to create a unique user.")
     public void shouldRegisterUniqueUserTest() {
         usersApiClient
                 .register(User.getRandomUser())
@@ -33,9 +29,8 @@ public class UserRegisterTest {
                 .and().assertThat().body("success", equalTo(true));
     }
 
-
     @Test
-    @DisplayName("Не должно быть возможности создать пользователя, который уже существует.")
+    @DisplayName("It should not be possible to create a user that already exists.")
     public void shouldNotRegisterExistedUserTest() {
         User user = User.getRandomUser();
 
@@ -46,7 +41,7 @@ public class UserRegisterTest {
                         .and().extract().body().path("success");
 
         if (!isUserRegistered){
-            Assert.fail("Не удалось создать пользователя для проверки.");
+            Assert.fail("Failed to create user for verification.");
             return;
         }
 
@@ -57,7 +52,7 @@ public class UserRegisterTest {
     }
 
     @Test
-    @DisplayName("Не должно быть возможности создать пользователя без заполнения обязательного поля.")
+    @DisplayName("It should not be possible to create a user without filling in a required field.")
     public void shouldNotRegisterUserWithoutNecessaryFieldsTest() {
         User user = User.getRandomUser();
 
@@ -71,7 +66,7 @@ public class UserRegisterTest {
 
 
     @Test
-    @DisplayName("Должна быть возможность получить информацию о пользователе.")
+    @DisplayName("It should be possible to get information about the user.")
     public void shouldGetUserTest() {
         User user = User.getRandomUser();
 

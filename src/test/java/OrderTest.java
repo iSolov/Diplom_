@@ -1,14 +1,7 @@
-import static org.hamcrest.core.IsEqual.equalTo;
-
-import client.BaseHttpClient;
 import client.IngredientsApiClient;
 import client.OrdersApiClient;
 import client.UsersApiClient;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import java.util.ArrayList;
-import java.util.List;
-
 import models.AuthorizationInfo;
 import models.Ingredient;
 import models.OrderParameters;
@@ -16,8 +9,12 @@ import models.User;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Тестирование заказов.
@@ -46,12 +43,12 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность создать заказ для пользователя с авторизацией.")
+    @DisplayName("It should be possible to create an order for a user with authorization.")
     public void shouldMakeOrderTest() {
         List<Ingredient> ingredients = getIngredients();
 
         if (ingredients.size() == 0) {
-            Assert.fail("Отсутствуют ингредиенты для возможности создать заказ.");
+            Assert.fail("There are no ingredients to be able to create an order.");
         }
 
         ArrayList<String> orderIngredients = new ArrayList<>();
@@ -66,12 +63,12 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность создать заказ без авторизации.")
+    @DisplayName("It should be possible to create an order without authorization.")
     public void shouldMakeOrderWithoutAuthTest() {
         List<Ingredient> ingredients = getIngredients();
 
         if (ingredients.size() == 0) {
-            Assert.fail("Отсутствуют ингредиенты для возможности создать заказ.");
+            Assert.fail("There are no ingredients to be able to create an order.");
         }
 
         ArrayList<String> orderIngredients = new ArrayList<>();
@@ -84,7 +81,7 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть ошибка при заказе без ингредиентов.")
+    @DisplayName("There must be an error when ordering without ingredients.")
     public void shouldGetErrorWhenMakeOrderWithoutIngredientsTest() {
         AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
@@ -95,7 +92,7 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть ошибка при заказе без ингредиентов.")
+    @DisplayName("There must be an error when ordering without ingredients.")
     public void shouldGetErrorWhenMakeOrderWithWrongIngredientTest() {
         AuthorizationInfo authorizationInfo = getRandomUserAuthInfo();
 
@@ -108,12 +105,12 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("Должна быть возможность получения списка заказов пользователей с авторизацией.")
+    @DisplayName("It should be possible to get a list of user orders with authorization.")
     public void shouldGetOrdersByUserWithAuthTest() {
         List<Ingredient> ingredients = getIngredients();
 
         if (ingredients.size() == 0) {
-            Assert.fail("Отсутствуют ингредиенты для возможности создать заказ.");
+            Assert.fail("There are no ingredients to be able to create an order.");
         }
 
         ArrayList<String> orderIngredients = new ArrayList<>();
